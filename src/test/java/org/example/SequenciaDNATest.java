@@ -66,7 +66,7 @@ public class SequenciaDNATest {
     }
 
     @Test
-    @DisplayName("Verifica se o valor re")
+    @DisplayName("Verifica se o valor retornado está certo para um arquivo vazio")
     public void calculaNucleotideosTeste05() throws IOException {
         int[] resultado = SequenciaDNA.calculaNucleotideos(pathFile5);
         assertArrayEquals(new int[]{0, 0, 0, 0, 0}, resultado);

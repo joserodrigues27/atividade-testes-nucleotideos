@@ -6,6 +6,7 @@
 
 package org.example;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,8 +24,12 @@ public class SequenciaDNA {
         }
     }
 
-    public static int[] calculaNucleotideos(String path) throws IOException {
-        String line = Files.readString(Path.of(path));
+    public static int[] calculaNucleotideos(String filePath) throws IOException {
+        Path path1 = Path.of(filePath);
+        if (!Files.exists(path1)) {
+            throw new FileNotFoundException("Arquivo não encontrado!");
+        }
+        String line = Files.readString(path1);
         int[] vect = new int[5];
         for (char letra : line.toCharArray()) {
             if (letra == 'A') {

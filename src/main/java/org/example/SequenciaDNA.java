@@ -17,28 +17,30 @@ public class SequenciaDNA {
     public static void main(String[] args) {
         try (Scanner sc = new Scanner(System.in)) {
             System.out.print("Digite o caminho do arquivo: ");
-            String path = sc.nextLine();
-            System.out.print(Arrays.toString(calculaNucleotideos(path)));
+            String filePath = sc.nextLine();
+            System.out.println(Arrays.toString(calculaNucleotideos(filePath)));
+        } catch (FileNotFoundException fnfe) {
+            System.out.println(fnfe.getMessage());
         } catch (IOException ioe) {
-            System.out.println("Erro ao ler o arquivo: " + ioe.getMessage());
+            System.out.println("Erro ao tentar ler o arquivo: " + ioe.getMessage());
         }
     }
 
     public static int[] calculaNucleotideos(String filePath) throws IOException {
-        Path path1 = Path.of(filePath);
-        if (!Files.exists(path1)) {
+        Path path = Path.of(filePath);
+        if (!Files.exists(path)) {
             throw new FileNotFoundException("Arquivo não encontrado!");
         }
-        String line = Files.readString(path1);
+        String line = Files.readString(path);
         int[] vect = new int[5];
-        for (char letra : line.toCharArray()) {
-            if (letra == 'A') {
+        for (char character : line.toCharArray()) {
+            if (character == 'A') {
                 vect[0]++;
-            } else if (letra == 'C') {
+            } else if (character == 'C') {
                 vect[1]++;
-            } else if (letra == 'G') {
+            } else if (character == 'G') {
                 vect[2]++;
-            } else if (letra == 'T') {
+            } else if (character == 'T') {
                 vect[3]++;
             } else {
                 vect[4]++;

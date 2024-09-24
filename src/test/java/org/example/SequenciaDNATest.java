@@ -19,45 +19,47 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class SequenciaDNATest {
-    private static final String PATHFILE1 = "teste01.txt";
-    private static final String PATHFILE2 = "teste02.txt";
-    private static final String PATHFILE3 = "teste03.txt";
-    private static final String PATHFILE4 = "teste04.txt";
-    private static final String PATHFILE5 = "teste05.txt";
-    private static final String PATHFILE6 = "teste06.txt";
+    private static final String FILEPATH1 = "teste01.txt";
+    private static final String FILEPATH2 = "teste02.txt";
+    private static final String FILEPATH3 = "teste03.txt";
+    private static final String FILEPATH4 = "teste04.txt";
+    private static final String FILEPATH5 = "teste05.txt";
+    private static final String FILEPATH6 = "teste06.txt";
+    private static final String FILEPATH7 = "teste07.txt";
 
     @BeforeAll
     static void beforeAll() {
         try {
-            Files.write(Path.of(PATHFILE1), "AAAGTCTGAC".getBytes());
-            Files.write(Path.of(PATHFILE2), "AACTGTCGBA".getBytes());
-            Files.write(Path.of(PATHFILE3), "ABC TEM FALHA".getBytes());
-            Files.write(Path.of(PATHFILE5), "".getBytes());
-            Files.write(Path.of(PATHFILE6), "ACGTEATTGC".getBytes());
+            Files.write(Path.of(FILEPATH1), "AAAGTCTGAC".getBytes());
+            Files.write(Path.of(FILEPATH2), "AACTGTCGBA".getBytes());
+            Files.write(Path.of(FILEPATH3), "ABC TEM FALHA".getBytes());
+            Files.write(Path.of(FILEPATH5), "".getBytes());
+            Files.write(Path.of(FILEPATH6), "ACGTEATTGC".getBytes());
+            Files.write(Path.of(FILEPATH7), "AACATGCTGCATGCTGGTAAAACCACTGGGCACCATTGCACAC".getBytes());
         } catch (IOException ioe) {
-            System.out.println("Erro ao escrever o arquivo: " + ioe.getMessage());
+            System.out.println("Erro ao tentar escrever o arquivo: " + ioe.getMessage());
         }
     }
 
     @Test
-    @DisplayName("Verifica se o valor retornado está certo para uma sequência válida")
+    @DisplayName("Verifica se o valor retornado está correto para uma sequência válida")
     public void calculaNucleotideosTeste01() {
         try {
-            int[] result = SequenciaDNA.calculaNucleotideos(PATHFILE1);
+            int[] result = SequenciaDNA.calculaNucleotideos(FILEPATH1);
             assertArrayEquals(new int[] {4, 2, 2, 2, 0}, result);
         } catch (IOException ioe) {
-            System.out.println("Erro ao ler o arquivo: " + ioe.getMessage());
+            System.out.println("Erro ao tentar ler o arquivo: " + ioe.getMessage());
         }
     }
 
     @Test
-    @DisplayName("Verifica se o valor retornado está certo para outra sequência válida")
+    @DisplayName("Verifica se o valor retornado está correto para outra sequência válida")
     public void calculaNucleotideosTeste02() {
         try {
-            int[] result = SequenciaDNA.calculaNucleotideos(PATHFILE2);
-            assertArrayEquals(new int[]{3, 2, 2, 2, 1}, result);
+            int[] result = SequenciaDNA.calculaNucleotideos(FILEPATH2);
+            assertArrayEquals(new int[] {3, 2, 2, 2, 1}, result);
         } catch (IOException ioe) {
-            System.out.println("Erro ao ler o arquivo: " + ioe.getMessage());
+            System.out.println("Erro ao tentar ler o arquivo: " + ioe.getMessage());
         }
     }
 
@@ -65,52 +67,63 @@ public class SequenciaDNATest {
     @DisplayName("Verifica se o valor retornado é null, quando o número de caracteres inválidos for superior a 10% do tamanho da sequência")
     public void calculaNucleotideosTeste03() {
         try {
-            int[] result = SequenciaDNA.calculaNucleotideos(PATHFILE3);
+            int[] result = SequenciaDNA.calculaNucleotideos(FILEPATH3);
             assertNull(result);
         } catch (IOException ioe) {
-        System.out.println("Erro ao ler o arquivo: " + ioe.getMessage());
+            System.out.println("Erro ao tentar ler o arquivo: " + ioe.getMessage());
         }
     }
 
     @Test
-    @DisplayName("Verifica se lança exceção do tipo IOException")
+    @DisplayName("Verifica se lança uma exceção do tipo FileNotFoundException, quando o arquivo passado como parâmetro não for encontrado")
     public void calculaNucleotideosTeste04() {
-        assertThrowsExactly(FileNotFoundException.class, () -> SequenciaDNA.calculaNucleotideos(PATHFILE4));
+        assertThrowsExactly(FileNotFoundException.class, () -> SequenciaDNA.calculaNucleotideos(FILEPATH4));
     }
 
     @Test
-    @DisplayName("Verifica se o valor retornado está certo para um arquivo vazio")
+    @DisplayName("Verifica se o valor retornado está correto para um arquivo vazio")
     public void calculaNucleotideosTeste05() {
         try {
-            int[] result = SequenciaDNA.calculaNucleotideos(PATHFILE5);
-            assertArrayEquals(new int[]{0, 0, 0, 0, 0}, result);
+            int[] result = SequenciaDNA.calculaNucleotideos(FILEPATH5);
+            assertArrayEquals(new int[] {0, 0, 0, 0, 0}, result);
         } catch (IOException ioe) {
-            System.out.println("Erro ao ler o arquivo: " + ioe.getMessage());
+            System.out.println("Erro ao tentar ler o arquivo: " + ioe.getMessage());
         }
     }
 
     @Test
-    @DisplayName("Verifica se o valor retornado está certo, quando o número de caracteres inválidos for igual a 10% do tamanho da sequência")
+    @DisplayName("Verifica se o valor retornado está correto, quando o número de caracteres inválidos for igual a 10% do tamanho da sequência")
     public void calculaNucleotideosTeste06() {
         try {
-            int[] result = SequenciaDNA.calculaNucleotideos(PATHFILE6);
-            assertArrayEquals(new int[]{2, 2, 2, 3, 1}, result);
+            int[] result = SequenciaDNA.calculaNucleotideos(FILEPATH6);
+            assertArrayEquals(new int[] {2, 2, 2, 3, 1}, result);
         } catch (IOException ioe) {
-            System.out.println("Erro ao ler o arquivo: " + ioe.getMessage());
+            System.out.println("Erro ao tentar ler o arquivo: " + ioe.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Verifica se o valor retornado está correto em relação a um exemplo com uma sequência válida")
+    public void calculaNucleotideosTeste07() {
+        try {
+            int[] result = SequenciaDNA.calculaNucleotideos(FILEPATH7);
+            assertArrayEquals(new int[] {13, 13, 9, 8, 0}, result);
+        } catch (IOException ioe) {
+            System.out.println("Erro ao tentar ler o arquivo: " + ioe.getMessage());
         }
     }
 
     @AfterAll
-    static void afterAll() throws IOException {
+    static void afterAll() {
         try {
-            Files.deleteIfExists(Path.of(PATHFILE1));
-            Files.deleteIfExists(Path.of(PATHFILE2));
-            Files.deleteIfExists(Path.of(PATHFILE3));
-            Files.deleteIfExists(Path.of(PATHFILE5));
-            Files.deleteIfExists(Path.of(PATHFILE6));
+            Files.deleteIfExists(Path.of(FILEPATH1));
+            Files.deleteIfExists(Path.of(FILEPATH2));
+            Files.deleteIfExists(Path.of(FILEPATH3));
+            Files.deleteIfExists(Path.of(FILEPATH5));
+            Files.deleteIfExists(Path.of(FILEPATH6));
+            Files.deleteIfExists(Path.of(FILEPATH7));
         } catch (IOException ioe) {
             System.out.println("Erro ao tentar deletar o arquivo: " + ioe.getMessage());
         }
-
     }
 }
